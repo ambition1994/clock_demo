@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>時鐘</title>
+    <link rel="icon" href="images/JS.png" type="image/x-icon" />
+    <style>
+      html,
+      body,
+      main {
+        margin: 0px;
+        height: 100%;
+      }
+      main {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgb(69, 90, 69);
+      }
+      #clock {
+        width: 500px;
+        height: 500px;
+        position: relative;
+        background-image: url(./clock-bg.png);
+      }
+      #h {
+        width: 3px;
+        height: 60px;
+        top: 247px;
+        left: 248.5px;
+        position: absolute;
+        transform-origin: 1.5px 0px;
+        background-color: darkmagenta;
+        border-radius: 2.5px;
+      }
+      #m {
+        width: 3px;
+        height: 90px;
+        top: 247px;
+        left: 248.5px;
+        position: absolute;
+        transform-origin: 1.5px 0px;
+        background-color: cornflowerblue;
+        border-radius: 2.5px;
+      }
+      #s {
+        width: 3px;
+        height: 120px;
+        top: 247px;
+        left: 248.5px;
+        position: absolute;
+        transform-origin: 1.5px 0px;
+        background-color: gray;
+        border-radius: 2.5px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div id="clock">
+        <div id="h"></div>
+        <div id="m"></div>
+        <div id="s"></div>
+      </div>
+    </main>
+    <script>
+      // Get time
+      let d = new Date();
+      let s = d.getSeconds();
+      let m = d.getMinutes();
+      let h = d.getHours();
+      // Get Element
+      let s_el = get_el('s');
+      let m_el = get_el('m');
+      let h_el = get_el('h');
+      // Initial
+      let i_s = (s / 60) * 360 + 180;
+      let i_m = (m / 60) * 360 + (s / 60) * 6 + 180;
+      let i_h = (filter_h(h) / 12) * 360 + (m / 60) * 30 - 180;
+      set_rotate(s_el, i_s);
+      set_rotate(m_el, i_m);
+      set_rotate(h_el, i_h);
+      // SetInterval
+      setInterval(function() {
+        i_s += 6;
+        i_m += 0.1;
+        set_rotate(s_el, i_s);
+        set_rotate(m_el, i_m);
+      }, 1000);
+      setInterval(function() {
+        i_h += 0.5;
+        set_rotate(h_el, i_h);
+      }, 60000);
+      function filter_h(h) {
+        if (h > 12) {
+          h -= 12;
+        } else if (h === 0) {
+          h = 12;
+        }
+        return h;
+      }
+      function get_el(el) {
+        return document.getElementById(el);
+      }
+      function set_rotate(el, i) {
+        el.style.transform = `rotate(${i}deg)`;
+      }
+    </script>
+  </body>
+</html>
